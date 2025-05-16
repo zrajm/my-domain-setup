@@ -1,0 +1,205 @@
+/*-*- css-indent-offset: 2 -*-*/
+/* Copyright 2025 by zrajm. Licenses: CC BY-SA (text), GPLv2 (code). */
+
+/* allthingssmitty.com/2017/01/09/css-reset-for-minimalists */
+html { box-sizing: border-box }
+*, :before, :after { box-sizing: inherit; padding: 0; margin: 0; text-indent: 0 }
+
+/******************************************************************************/
+html {
+  /* www.typotheque.com/articles/opentype_features_in_css */
+  font-variant-ligatures: common-ligatures;
+  max-width: 100%;
+  font: 20px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+  padding: 0 .5rem;
+  --indent: 1.25rem;
+  --leading: 1.75;
+
+  /* CSS-only darkmode. */
+  transition: background-color .1s ease-in, color .1s ease-in;
+  @media (prefers-color-scheme: light) { /* lightmode, but darkmode checked */
+    &:has(#darkmode:checked) {
+      background: #111;
+      color: #fff;
+    }
+    :where(a) { color: #718eff }
+  }
+  @media (prefers-color-scheme: dark) { /* darkmode (and darkmode unchecked) */
+    &:has(#darkmode:not(:checked)) {
+      background: #111;
+      color: #fff;
+    }
+    :where(a) { color: #718eff }
+  }
+}
+body {
+  margin: 0 auto;
+  max-width: 36rem;
+}
+a { color: #2962ff }
+footer { text-align: center }
+a[href^="#fn"],
+sup { top: -1.15ex } /* push up one x-height of surrounding font size */
+sub { top:  1ex    } /* push down one x-height footnote font size */
+a[href^="#fn"]:after, a[href^="#fn"]:before,
+sub:after, sub:before, sup:after, sup:before {
+  /* Using hairspace lets any <a> underline (in <a><sup>…</sup></a>)
+     stick out a bit on either side, making sure its visible even when
+     link text has a descender (as with descending old-style numbers). */
+  content: '\feff\200a\feff'; /* hair space, no break before/after */
+}
+sub, sup, a[href^="#fn"] {
+  font-size: .8em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+/********************/
+p { margin-top: 1rem }
+p + p, p.indented {
+  margin-top: 0;
+  text-indent: var(--indent);
+}
+p:empty + p {
+  margin-top: 1rem;
+  text-indent: 0;
+}
+ul { list-style-type: "⚫︎ " }
+/** Table-of-Contents **/
+.toc, .toc ul { list-style: none } /* no bullets */
+ul.toc {
+  &, & ul { margin-top: 0; margin-bottom: 0 }
+  & a { color: inherit; text-decoration: none }
+  & a:hover { text-decoration: underline }
+  columns: calc(var(--indent) * 10) auto;
+  column-gap: 1rem;
+  column-rule: 2px solid #888a;
+}
+/* Elements with blank line above/below. */
+blockquote, footer, ol, pre, table, ul {
+  margin-top   : calc(var(--leading) * 1rem);
+  margin-bottom: calc(var(--leading) * 1rem);
+}
+/* Indented elements. */
+blockquote, ol, pre, table, ul { margin-left: var(--indent) }
+blockquote {
+  border-left: calc(var(--indent) - .75rem) solid #8885;
+  padding: 0 .75rem;
+}
+pre, tt {
+  background: #aaa3;
+  border: 1px solid #8885;
+  border-radius: .25rem;
+  padding: 0 .0625em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  font-size: 90%;
+}
+pre {
+  padding: .25rem;
+}
+h1, h2, h3 { margin-top: 1em }
+h1, h2, h3, h4, h5, h6 {
+  & a { color: inherit; text-decoration: none }
+  & a[href^="#"]:hover:before {
+    color: #666;
+    content: "#";
+    display: inline-block;
+    width: .875em;
+    margin-left: -.875em;
+    text-decoration: none;
+  }
+}
+small { font-size: .9em }
+a {
+  border-radius: .125rem;
+  padding: 0  .25rem  .125rem;
+  margin:  0 -.25rem -.125rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+a.img { display: inline-block }
+a.img, [id] { position: relative }
+a.img img { display: block }
+a.img:hover:before, :target:before {
+  content: ' ';
+  position: absolute;
+  left: -.25rem; right: -.25rem;
+  border-radius: .125rem;
+}
+a.img:hover:before {
+  top: -.35rem; bottom: -.25rem;
+}
+a.img:hover:before, a:not(.img):hover {
+  box-shadow: 0 0 .75rem #88f7 inset, 0 0 1.5rem #88f7 inset;
+  background: #88f1;
+}
+:target:before {
+  top: 0rem; bottom: -.125rem;
+  box-shadow: 0 0 .75rem #fb4b inset, 0 0 1.5rem #fb4b inset;
+  background: #fb44;
+  z-index: -1;
+}
+a:hover { text-decoration: underline }
+/** Tables **/
+table, td, th { border: 2px solid #888a }
+table {
+  border-spacing: 0;
+  border-left: 0; border-top: 0;
+}
+td, th {
+  padding: 0 .25rem;
+  height: 1.25rem;
+  vertical-align: middle;
+  border-right: 0; border-bottom: 0;
+}
+/** Checkbox **/
+input[type="checkbox"] {
+  opacity: .5;
+  transition: opacity ease-in-out .1s;
+  &:hover { opacity: 1 }
+  --unit: 25px;
+  --right-distance: calc(100% - var(--unit));
+  --on-distance: var(--right-distance);
+  --off-distance: 0;
+  @media(prefers-color-scheme: dark) {
+    --on-distance: 0;
+    --off-distance: var(--right-distance);
+  }
+  &:before, &:after { /* groove + knob */
+    content: '';
+    display: block;
+    position: absolute; inset: 0;
+    border-radius: var(--unit);
+    transition: left .05s ease-in;
+  }
+  &:before { /* groove */
+    background: #999;
+    box-shadow: inset 0 0 0 1px #0002;
+  }
+  &:after { /* knob */
+    width: var(--unit);
+    background: #fff; box-shadow: 0 1px 2px 0 #0008;
+    left: var(--off-distance)
+  }
+  &:checked:after { left: var(--on-distance) }
+  appearance: none;
+  display: inline-block; height: var(--unit); width: calc(var(--unit) * 1.75);
+  position: relative; vertical-align: middle; bottom: .1em;
+  cursor: pointer;
+  font-size: inherit;
+  &#darkmode {
+    position: fixed; top: 0; right: 0; margin: 1rem;
+    --sun: url('data:image/svg+xml,<svg width="25" height="25" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="3.5"/><path d="M10 2.5V5m0 10v2.5m5.3-12.8-1.8 1.8m-7 7-1.8 1.8M17.5 10H15M5 10H2.5m2.2-5.3 1.8 1.8m7 7 1.8 1.8" stroke="%23000" stroke-width="1.5px"/></svg>');
+    --moon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 20 20"><path d="M10 3a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 5.77-3.05A6 6 0 0 1 15 14a6 6 0 0 1-6-6 6 6 0 0 1 2.48-4.84A7 7 0 0 0 10 3z"/></svg>');
+    /* knob */
+    &:after { content: var(--sun) }
+    &:checked:after { content: var(--moon) }
+    @media (prefers-color-scheme: dark) {
+      &:after { content: var(--moon) }
+      &:checked:after { content: var(--sun) }
+    }
+  }
+}
+/*eof*/

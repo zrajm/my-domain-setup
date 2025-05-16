@@ -1,0 +1,6 @@
+[submodule "www/baremark"]
+	path = www/baremark
+	url = git@github.com:zrajm/baremark.git
+[submodule "www/elemental"]
+	path = www/elemental
+	url = git@github.com:zrajm/elemental

@@ -1,0 +1,9 @@
+-*- org -*-
+
+* TODO Hanging in table-of-contents
+* TODO Indent <ul> and <ol> more
+* TODO How to handle long lines in <pre>?
+* TODO Insert <section> tags around <h#> tags
+* TODO Better link colors
+  Use the same link colors as https://allthingssmitty.com/?
+* [eof]
